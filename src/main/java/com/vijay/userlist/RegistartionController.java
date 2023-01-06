@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.vijay.userlist.dao.SecurutyService;
 import com.vijay.userlist.dao.UserDao;
 import com.vijay.userlist.entity.User;
 import com.vijay.userlist.util.SortData;
@@ -24,10 +25,12 @@ import com.vijay.userlist.util.SortData;
 @Controller
 public class RegistartionController {
 	@Autowired
+	private SecurutyService securutyService;
+	@Autowired
 	UserDao dao;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-
+	
 	@RequestMapping("/loginPage")
 	public String loginPage() {
 		return "loginPage";
@@ -45,8 +48,8 @@ public class RegistartionController {
 
 	@RequestMapping("/login")
 	public String login(@RequestParam("password") String password, @RequestParam("username") String emailId, Model model) {
-		User user = dao.getUser(emailId, password);
-		if (user != null) {
+		boolean login = securutyService.userLogin(emailId, password);
+		if (login) {
 			int offSet=0;
 			int pageSize=10;
 			String field="firstname";

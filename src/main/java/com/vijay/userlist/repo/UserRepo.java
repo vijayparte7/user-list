@@ -7,4 +7,5 @@ import com.vijay.userlist.entity.User;
 @Component
 public interface UserRepo extends JpaRepository<User, Long> {
 	User findByEmailidAndPassword(String email, String password);
+	User findByEmailid(String username);
 }
